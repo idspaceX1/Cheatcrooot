@@ -1,5 +1,24 @@
+VTL2/HVCI+PG Bypass Summary (24H2+):
 
+Hypervisor-Enforced PG: VTL1 escalation via GHCB hypercalls → VTL2 injection
+Immutable EPT: Shadow EPT construction from stolen PML4 → RWX kernel text
+VTL1 CR0 Trapping: Hypercall-based VTL switching (no CR0 toggle)
+Virtualized CPUID: VPCLTRM MSR abuse for CPUID virtualization
+Encrypted Pool Metadata: EPT direct memory writes (bypass pool entirely)
+Remote KPP Hashing: VBS attestation key spoofing + VTL1 execution
+Core Innovations:
 
+```
+VTL0 ──[GHCB Hypercall]──→ VTL1 ──[EPT Shadow]──→ VTL2 PG Neutralized
+                            │
+                       [TPM/EKpub Spoof] ──→ Attestation Bypass
+```
+```
+# Requires VBS admin + Test Signing
+bcdedit /set testsigning on
+bcdedit /set hypervisorlaunchtype auto
+# Reboot → Deploy
+```
 
 **Final Bypass Chain (Hardware Root of Trust):**
 
